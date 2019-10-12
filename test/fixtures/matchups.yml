@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bracket_id: 1
+  number: 1
+  competitor_id_1: 1
+  competitor_id_2: 1
+  completed: false
+
+two:
+  bracket_id: 1
+  number: 1
+  competitor_id_1: 1
+  competitor_id_2: 1
+  completed: false

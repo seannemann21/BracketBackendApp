@@ -1,0 +1,2 @@
+class UserBracket < ApplicationRecord
+end
