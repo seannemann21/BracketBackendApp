@@ -5,12 +5,13 @@ class BracketsController < ApplicationController
   # GET /brackets.json
   def index
     @brackets = Bracket.all
+    render json: @brackets, each_serializer: SimpleBracketSerializer
   end
 
   # GET /brackets/1
   # GET /brackets/1.json
   def show
-    render json: @bracket
+    render json: @bracket, serializer: CompleteBracketSerializer
   end
 
   # GET /brackets/new
