@@ -26,7 +26,10 @@ class BracketsController < ApplicationController
   # POST /brackets
   # POST /brackets.json
   def create
-    @bracket = Bracket.create name: params['bracketName']
+    # Below will obviously need replaced
+    user = User.find_by username: 'Sean'
+    user = User.create username: 'Sean' unless user
+    @bracket = Bracket.create name: params['bracketName'], creator_id: user.id
     competitors = []
     params['competitors'].each do |competitor|
       competitors << Competitor.create(name: competitor['name'])
@@ -36,12 +39,12 @@ class BracketsController < ApplicationController
     created_matchups = 0
     number_of_rounds(competitors.length).times do |i|
       round = Round.create number: i, bracket_id: @bracket.id
-      matchups_in_round.times do |j|
+      matchups_in_round.times do
         matchup = Matchup.create number: created_matchups, round_id: round.id, completed: false
-        created_matchups += 1
         if i.zero?
-          CompetitorMatchup.create matchup_id: matchup.id, competitor_id: competitors[i].id
-          CompetitorMatchup.create matchup_id: matchup.id, competitor_id: competitors[i+1].id
+          CompetitorMatchup.create matchup_id: matchup.id, competitor_id: competitors[created_matchups].id
+          CompetitorMatchup.create matchup_id: matchup.id, competitor_id: competitors[created_matchups+1].id
+          created_matchups += 2
         end
       end
       matchups_in_round /= 2
