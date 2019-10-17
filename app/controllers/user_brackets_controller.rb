@@ -17,17 +17,18 @@ class UserBracketsController < ApplicationController
   def create
     user_id = params[:user_id]
     bracket_id = params[:bracket_id]
-    UserBracket.create user_id: user_id, bracket_id: bracket_id
+    user = User.find user_id
+
+    UserBracket.create user_id: user_id, bracket_id: bracket_id unless user.brackets.any?{|b| b.id == bracket_id}
   end
 
-  # PATCH/PUT /user_brackets/1
-  # PATCH/PUT /user_brackets/1.json
+  # PUT /users/:user_id/brackets
   def update
-    if @user_bracket.update(user_bracket_params)
-      render :show, status: :ok, location: @user_bracket
-    else
-      render json: @user_bracket.errors, status: :unprocessable_entity
-    end
+    user_id = params[:user_id]
+    bracket_id = params[:bracket_id]
+    user = User.find user_id
+
+    UserBracket.create user_id: user_id, bracket_id: bracket_id unless user.brackets.any?{|b| b.id == bracket_id}
   end
 
   # DELETE /user_brackets/1
