@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_17_023206) do
+ActiveRecord::Schema.define(version: 2019_10_21_011703) do
 
   create_table "brackets", force: :cascade do |t|
     t.integer "creator_id"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2019_10_17_023206) do
     t.integer "bracket_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "completed"
   end
 
   create_table "user_brackets", force: :cascade do |t|

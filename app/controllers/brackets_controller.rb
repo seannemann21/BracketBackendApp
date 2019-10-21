@@ -61,6 +61,26 @@ class BracketsController < ApplicationController
     # end
   end
 
+  def advance_round
+    bracket_id = params[:id]
+    bracket = Bracket.find bracket_id
+    return if bracket.rounds.length - 1 == bracket.rounds_completed
+
+    winners = bracket.rounds[bracket.rounds_completed].matchups.map do |matchup|
+      matchup.competitor_matchups.max_by do |competitor_matchup|
+        competitor_matchup.votes.length
+      end
+    end
+    bracket.rounds[bracket.rounds_completed + 1].matchups.each_with_index do |matchup, i|
+      CompetitorMatchup.create matchup_id: matchup.id, competitor_id: winners[2*i].competitor.id
+      CompetitorMatchup.create matchup_id: matchup.id, competitor_id: winners[2*i + 1].competitor.id
+    end
+    bracket.rounds[bracket.rounds_completed].update completed: true
+
+    render json: bracket, serializer: CompleteBracketSerializer
+  end
+
+
   # PATCH/PUT /brackets/1
   # PATCH/PUT /brackets/1.json
   def update
